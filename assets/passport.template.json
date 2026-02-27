@@ -1,0 +1,14 @@
+{
+  "name": "agent-name",
+  "version": "1.0.0",
+  "description": "One sentence: what the agent does",
+  "capabilities": ["reasoning", "code", "xmtp-messaging"],
+  "endpoint": "xmtp://0xYOUR_AGENT_ADDRESS",
+  "network": "xmtp-dev",
+  "infrastructure": "openclaw",
+  "identity": {
+    "address": "0xYOUR_AGENT_ADDRESS",
+    "inboxId": "YOUR_XMTP_INBOX_ID"
+  },
+  "schema": "https://arc-id.network/agent-passport/v1"
+}
