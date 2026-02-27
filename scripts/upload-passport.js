@@ -36,6 +36,24 @@ try {
 
 console.log(`📄 Passport: ${passport.name ?? "unnamed"} v${passport.version ?? "?"}`);
 
+// ── Try local IPFS node ────────────────────────────────────────────────────────
+const IPFS_API = process.env.IPFS_API_URL ?? "http://127.0.0.1:5001";
+const IPFS_GATEWAY = process.env.IPFS_GATEWAY_URL ?? "http://57.131.42.146:8080";
+
+try {
+  const form = new FormData();
+  form.append("file", new Blob([data], { type: "application/json" }), "passport.json");
+  const res = await fetch(`${IPFS_API}/api/v0/add?pin=true`, { method: "POST", body: form });
+  if (res.ok) {
+    const json = await res.json();
+    const cid = json.Hash;
+    console.log(`✅ Pinned to local IPFS node! CID: ${cid}`);
+    console.log(`🔗 Gateway: ${IPFS_GATEWAY}/ipfs/${cid}`);
+    writeResult(cid, `ipfs://${cid}`, `gateway: ${IPFS_GATEWAY}/ipfs/${cid}`);
+    process.exit(0);
+  }
+} catch (_) { /* local node not available, try cloud */ }
+
 // ── Try Pinata ─────────────────────────────────────────────────────────────────
 if (process.env.PINATA_API_KEY && process.env.PINATA_SECRET_KEY) {
   console.log("📌 Uploading via Pinata...");

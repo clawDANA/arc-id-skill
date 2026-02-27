@@ -30,15 +30,16 @@ If already registered, script exits with current token ID and status.
 
 1. Copy `assets/passport.template.json` → `my-passport.json`
 2. Fill in: `name`, `description`, `capabilities`, `endpoint` (xmtp://0xAGENT_ADDRESS), `identity.address`, `identity.inboxId`
-3. Upload to IPFS:
+3. Upload to IPFS (priority: local node → Pinata → nft.storage → local CID):
 
 ```bash
 node scripts/upload-passport.js --file ./my-passport.json
-# With Pinata: PINATA_API_KEY=xxx PINATA_SECRET_KEY=yyy node scripts/upload-passport.js --file ./my-passport.json
+# Uses local IPFS node by default (http://127.0.0.1:5001)
+# Override: IPFS_API_URL=http://host:5001 IPFS_GATEWAY_URL=http://host:8080
 # Output: ipfs://Qm... → use as AGENT_URI
 ```
 
-If no IPFS credentials: script computes CID locally and gives manual pinning instructions.
+Public gateway: `http://57.131.42.146:8080/ipfs/<CID>`
 
 ---
 
